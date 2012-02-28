@@ -1,1 +1,15 @@
-お試しで作ったmaps apiです。
+jQuery Mobile 上で Google Maps API を動かしたらどうなるんだろ？と思い、お試しで作ったプログラムです。
+
+
+以下のサイトを参考にさせていただきました。
+
+■ Google Maps API
+Google Maps入門(Google Maps JavaScript API V3)
+http://www.ajaxtower.jp/googlemaps/
+
+Google Maps API Version3 日本語ドキュメント(非公式)
+http://sites.google.com/site/gmapsapi3/
+
+■ jQuery Mobile
+jQuery Mobile 1.0.1 日本語リファレンス
+http://dev.screw-axis.com/doc/jquery_mobile/
