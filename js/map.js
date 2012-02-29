@@ -51,12 +51,19 @@ $(function(){
   /*********************************
    * 指定された住所を地図上に表示する
    */
-  $('#search_address').textinput().bind('change', function (event, ui) {
+  $('#address_search').textinput().bind('change', function (event, ui) {
     var address = $(this).val();
-    var geocoder = new google.maps.Geocoder();
 
+    // 検索ワードがなかったら何もしない
+    if (address == '') {
+      return;
+    }
+
+    // 住所からジオコードを取得
+    var geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function (results, status){
       var latlng;
+      // 取得できた場合
       if (status == google.maps.GeocoderStatus.OK) {
         latlng = results[0].geometry.location;
 
@@ -74,6 +81,7 @@ $(function(){
           position: latlng,
           content: address
         }).open(data.map, marker);
+
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
