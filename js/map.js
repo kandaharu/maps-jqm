@@ -1,47 +1,79 @@
 $(function(){
   /*********************************
-   * 地図情報の初期化
+   * 各種オプション
    */
-  var centerMarker = (function () {
+  var options = function (){
+    // 出発点(初期値:東京駅)
+    var latlng = new google.maps.LatLng(35.681382,139.766084);
 
-    // 中心地の軽度緯度
-    var latlng = new google.maps.LatLng(35.607002,139.749107);
-
-    // 地図の設定
-    var mapopts = {
-      zoom: 11,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      navigationControlOptions: {
-        style: google.maps.NavigationControlStyle.ANDROID
+    return {
+      // 地図オプション
+      map: {
+        zoom: 13,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP, // 通常のマップ形式
+        navigationControlOptions: {
+          style: google.maps.NavigationControlStyle.ANDROID // Androidタイプのナビゲーションコントロール
+        }
+      },
+      marker: {
+        map: undefined, // あとで設定する
+        position: latlng
+      },
+      info_window: {
+        content: '東京駅',
+        position: latlng
       }
     };
-
-    var map = new google.maps.Map(
-      document.getElementById('map_canvas'),
-      mapopts
-    );
-
-    // 中心地のマーカー設定
-    return new google.maps.Marker({
-      map: map,
-      position: latlng
-    });
-  })();
+  }();
 
   /*********************************
-   * 住所から地図を探す
+   * 地図情報の初期化
    */
-  $('#search_text').textinput().bind('change', function (event, ui) {
+  var data = function () {
+    var map = new google.maps.Map(
+      document.getElementById('map_canvas'),
+      options.map
+    );
+
+    // マーカー設定
+    options.marker.map = map;
+    var marker = new google.maps.Marker(options.marker);
+
+    // 情報ウィンドウ設定
+    var info_window = new google.maps.InfoWindow(options.info_window).open(map, marker);
+
+    return {
+      map: map
+    };
+  }();
+
+  /*********************************
+   * 指定された住所を地図上に表示する
+   */
+  $('#search_address').textinput().bind('change', function (event, ui) {
     var address = $(this).val();
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({'address': address}, function (results, status){
-      var location;
+      var latlng;
       if (status == google.maps.GeocoderStatus.OK) {
-        location = results[0].geometry.location;
-        centerMarker.map.setCenter(location);
-        centerMarker.setPosition(location);
+        latlng = results[0].geometry.location;
+
+        // 地図の中心を変更
+        data.map.setCenter(latlng);
+
+        // 新しいマーカーの生成
+        var marker = new google.maps.Marker({
+          map: data.map,
+          position: latlng
+        });
+
+        // 新しい情報ウィンドウの生成
+        var info_window = new google.maps.InfoWindow({
+          position: latlng,
+          content: address
+        }).open(data.map, marker);
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
