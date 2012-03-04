@@ -2,37 +2,42 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="text/javascript" http-equiv="Content-Script-Type">
+    <meta content="text/css" http-equiv="Content-Style-Type">
     <title>Google Maps Test</title>
-
-    <link rel="stylesheet" href="themes/jqm.min.css" />
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css" />	
-    <link rel="stylesheet" href="css/map.css" />
-
+    <link href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" rel="stylesheet">
+    <link href="http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css" rel="stylesheet">
+    <link href="css/map.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
-    <script src="http://maps.google.com/maps/api/js?sensor=false&language=ja"></script>
-
+    <script src="http://maps.google.com/maps/api/js?sensor=false&amp%3Blanguage=ja"></script>
     <script src="js/map.js"></script>
   </head>
   <body>
-    <div data-role="page">
-      <div data-role="header" data-position="inline">
-        <h1>header</h1>
+    <div data-role="page" id="map_page"><!-- map_page -->
+      <div data-position="inline" data-role="header">
+        <h1>どこ行く？</h1>
       </div>
-      <div id="content" data-role="content">
+
+      <div data-role="content">
         <div data-role="fieldcontain">
-          <label for="address_search">住所から探す:</label>
-          <input id="address_search" type="search" value="" placeholder="住所から場所を探す" />
+          <input id="to" placeholder="行先" type="search" value="">
         </div>
+
         <div id="map_canvas"></div>
-      </div><!-- /content -->
 
-      <div data-role="footer" data-position="inline">
-        <h1>footer</h1>
+        <div data-role="fieldcontain">
+          <div data-role="navbar">
+            <ul>
+              <li><a data-icon="plus" id="zoom_in">拡大する</a></li>
+              <li><a data-icon="minus" id="zoom_out">縮小する</a></li>
+            </ul>
+          </div>
+        </div>
+
       </div>
-    </div>
-
+    </div><!-- /map_page -->
   </body>
 </html>
+
