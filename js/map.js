@@ -9,6 +9,17 @@ $(function () {
 
     // 行先とルートの設定をする
     $('#to').bind('change', search_to);
+    
+    // 地図を拡大する
+    $('#zoom_in').click(function () {
+      data.map.setZoom(data.map.getZoom() + 1); 
+    });
+    
+    // 地図を拡大する
+    $('#zoom_out').click(function () {
+      data.map.setZoom(data.map.getZoom() - 1); 
+    });
+
   });
 
   /*********************************
@@ -25,7 +36,7 @@ $(function () {
         center: latlng, // 中心地の経度緯度
         mapTypeId: google.maps.MapTypeId.ROADMAP, // マップ形式:通常の2Dタイプ
         navigationControlOptions: {
-          style: google.maps.NavigationControlStyle.ANDROID // ナビゲーションスタイル:Android風
+          style: google.maps.NavigationControlStyle.SMALL // ナビゲーションスタイル:ズームのみ
         }
       },
 
@@ -88,7 +99,7 @@ $(function () {
       markers: markers,
       geocoder: geocoder,
       direction: direction,
-      renderer: renderer
+      renderer:renderer
     };
   };
 
