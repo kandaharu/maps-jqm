@@ -8,33 +8,68 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="text/javascript" http-equiv="Content-Script-Type">
     <meta content="text/css" http-equiv="Content-Style-Type">
-    
-    <title>Google Maps Test</title>
-    
+
+    <title>ルート検索</title>
+
     <link href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" rel="stylesheet">
-    <link href="http://code.jquery.com/mobile/1.0/jquery.mobile.structure-1.0.min.css" rel="stylesheet">
     <link href="css/map.css" rel="stylesheet">
-    <link href="themes/ios_inspired/styles.css" rel="stylesheet"><!-- iOS like Theme -->
-    
+
     <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
     <script src="http://maps.google.com/maps/api/js?sensor=false&amp%3Blanguage=ja"></script>
     <script src="js/map.js"></script>
 
+    <!-- iOS like Theme -->
+    <!--
+    <link href="themes/ios_inspired/styles.css" rel="stylesheet">
+    -->
+    <!-- Android like Theme -->
+    <link href="themes/android/android-theme.css" rel="stylesheet">
+    <script src="themes/android/jquery.mobile.android-theme.js"></script>
   </head>
-  <body>
-    <div data-role="page" id="map_page"><!-- map_page -->
-      <div data-position="inline" data-role="header">
-        <h1>どこ行く？</h1>
-        <a class="ui-btn-right" data-icon="gear" data-role="button" href="#config_page" rel="external">設定画面へ</a>
+
+  <body class="android">
+    <div data-role="page" id="config_page" data-add-back-btn="true" data-back-btn-text="戻る"><!-- config_page -->
+      <div data-position="inline" data-role="header" data-theme="c">
+        <h1>設定画面</h1>
       </div>
 
-      <div data-role="content">
+      <div data-role="content"><!-- content -->
         <div data-role="fieldcontain">
-          <input id="to" placeholder="行先" type="search" value="">
+          <input id="origin" type="search" placeholder="どこから？" value="" />
+          <p style="text-align:center;">↓</p>
+          <input id="destination" type="search" placeholder="どこへ？" value="" />
         </div>
 
-        <div id="map_canvas"></div>
+        <div data-role="fieldcontain">
+          <fieldset data-role="controlgroup">
+            <legend>何でいく？</legend>
+            <input id="tollway" name="travel_mode" type="radio" value="tollway" checked="checked">
+            <label for="tollway">車（有料道含む）</label>
+            <input id="local_street" name="travel_mode" type="radio" value="local_street">
+            <label for="local_street">車（一般道のみ）</label>
+            <input id="walking" name="travel_mode" type="radio" value="walking">
+            <label for="walking">徒歩</label>
+          </fieldset>
+        </div>
+
+        <div data-role="fieldcontain">
+          <a id="route_search" data-role="button" href="#map_page" data-transition="frip">ルート検索する</a>
+        </div>
+
+      </div><!-- /content -->
+    </div><!-- /config_page -->
+
+    <div data-role="page" id="map_page" data-add-back-btn="true" data-back-btn-text="戻る"><!-- map_page -->
+      <div data-position="inline" data-role="header" data-theme="c">
+        <a data-role="button" href="#config_page" data-position="right" data-transition="flip" data->設定する</a>
+        <h1>ルート画面</h1>
+      </div>
+
+      <div data-role="content"><!-- content -->
+        <div id="map_canvas">
+          <p><a href="#config_page">設定画面で、出発地・目的地などを設定してください。</a></p>
+        </div>
 
         <div data-role="fieldcontain">
           <div data-role="navbar">
@@ -44,42 +79,12 @@
             </ul>
           </div>
         </div>
-
-      </div>
+        
+        
+        <div id="route"></div>        
+      </div><!-- /content -->
     </div><!-- /map_page -->
 
-    <div data-role="page" id="config_page"><!-- config_page -->
-      <div data-position="inline" data-role="header">
-        <h1>設定する</h1>
-      </div>
-
-      <div data-role="content">
-        <div data-role="fieldcontain">
-          <fieldset data-role="controlgroup">
-            <legend>どこから？: </legend>
-            <input checked="checked" id="gps" name="gps" type="radio" value="gps">
-            <label for="gps">現在地から(GPS)</label>
-            <input id="address_input" name="address_input" type="radio" value="address_input">
-            <label for="address_input">住所を入力する</label>
-          </fieldset>
-        </div>
-
-        <div data-role="fieldcontain">
-          <fieldset data-role="controlgroup" data-type="horizontal">
-            <legend>どうやって？: </legend>
-            <input checked="checked" id="drive" name="drive" type="radio" value="drive">
-            <label for="drive">ドライブ</label>
-            <input id="walk" name="walk" type="radio" value="walk">
-            <label for="walk">徒歩</label>
-          </fieldset>
-        </div>
-
-        <div data-role="fieldcontain">
-          <a data-role="button" href="#map_page" id="submit" rel="external">設定する</a>
-        </div>
-
-      </div>
-    </div><!-- /config_page -->
   </body>
 </html>
 
